@@ -17,6 +17,9 @@
  limitations under the License.
  *************************************************************************************/
 
+#ifndef Oculus_GLAPP_H
+#define Oculus_GLAPP_H
+
 #include <GL/CAPI_GLE.h>
 #include <Extras/OVR_Math.h>
 #include <Kernel/OVR_Log.h>
@@ -855,3 +858,6 @@ struct Scene
         Release();
     }
 };
+
+
+#endif //Oculus_GLAPP_H

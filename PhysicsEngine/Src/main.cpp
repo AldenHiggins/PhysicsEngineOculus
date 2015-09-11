@@ -29,6 +29,8 @@ limitations under the License.
 // Include the Oculus SDK
 #include "OVR_CAPI_GL.h"
 
+#include "Physics.h"
+
 using namespace OVR;
 
 // return true to retry later (e.g. after display lost)
@@ -39,6 +41,9 @@ static bool MainLoop(bool retryCreate)
     ovrGLTexture  * mirrorTexture = nullptr;
     GLuint          mirrorFBO = 0;
     Scene         * roomScene = nullptr; 
+
+	// Generate the physics for the scene
+	PhysicsEngine::PhysicsMain physics;
 
     ovrHmd HMD;
 	ovrGraphicsLuid luid;
@@ -101,67 +106,9 @@ static bool MainLoop(bool retryCreate)
     // Make scene - can simplify further if needed
     roomScene = new Scene(false);
 
-	// Test generate the scene
-	static const GLchar* VertexShaderSrc =
-		"#version 150\n"
-		"uniform mat4 matWVP;\n"
-		"in      vec4 Position;\n"
-		"in      vec4 Color;\n"
-		"in      vec2 TexCoord;\n"
-		"out     vec2 oTexCoord;\n"
-		"out     vec4 oColor;\n"
-		"void main()\n"
-		"{\n"
-		"   gl_Position = (matWVP * Position);\n"
-		"   oTexCoord   = TexCoord;\n"
-		"   oColor.rgb  = pow(Color.rgb, vec3(2.2));\n"   // convert from sRGB to linear
-		"   oColor.a    = Color.a;\n"
-		"}\n";
+	// Add a cube to the scene
+	physics.addCube(roomScene, Vector3f(0.0f, 3.0f, 10.0f), Vector3f(.5f, .5f, .5f));
 
-	static const char* FragmentShaderSrc =
-		"#version 150\n"
-		"uniform sampler2D Texture0;\n"
-		"in      vec4      oColor;\n"
-		"in      vec2      oTexCoord;\n"
-		"out     vec4      FragColor;\n"
-		"void main()\n"
-		"{\n"
-		"   FragColor = oColor * texture2D(Texture0, oTexCoord);\n"
-		"}\n";
-
-	GLuint    vshader = roomScene->CreateShader(GL_VERTEX_SHADER, VertexShaderSrc);
-	GLuint    fshader = roomScene->CreateShader(GL_FRAGMENT_SHADER, FragmentShaderSrc);
-
-	// Make textures
-	ShaderFill * grid_material[4];
-	for (int k = 0; k < 4; ++k)
-	{
-		static DWORD tex_pixels[256 * 256];
-		for (int j = 0; j < 256; ++j)
-		{
-			for (int i = 0; i < 256; ++i)
-			{
-				if (k == 0) tex_pixels[j * 256 + i] = (((i >> 7) ^ (j >> 7)) & 1) ? 0xffb4b4b4 : 0xff505050;// floor
-				if (k == 1) tex_pixels[j * 256 + i] = (((j / 4 & 15) == 0) || (((i / 4 & 15) == 0) && ((((i / 4 & 31) == 0) ^ ((j / 4 >> 4) & 1)) == 0)))
-					? 0xff3c3c3c : 0xffb4b4b4;// wall
-				if (k == 2) tex_pixels[j * 256 + i] = (i / 4 == 0 || j / 4 == 0) ? 0xff505050 : 0xffb4b4b4;// ceiling
-				if (k == 3) tex_pixels[j * 256 + i] = 0xffffffff;// blank
-			}
-		}
-		TextureBuffer * generated_texture = new TextureBuffer(nullptr, false, false, Sizei(256, 256), 4, (unsigned char *)tex_pixels, 1);
-		grid_material[k] = new ShaderFill(vshader, fshader, generated_texture);
-	}
-
-	glDeleteShader(vshader);
-	glDeleteShader(fshader);
-
-	// Add models to the scene
-	Model * m = new Model(Vector3f(0, 0, 0), grid_material[1]);  // Walls
-	m->AddSolidColorBox(-10.1f, 0.0f, -20.0f, -10.0f, 4.0f, 20.0f, 0xff808080); // Left Wall
-	m->AddSolidColorBox(-10.0f, -0.1f, -20.1f, 10.0f, 4.0f, -20.0f, 0xff808080); // Back Wall
-	m->AddSolidColorBox(10.0f, -0.1f, -20.0f, 10.1f, 4.0f, 20.0f, 0xff808080); // Right Wall
-	m->AllocateBuffers();
-	roomScene->Add(m);
 
     bool isVisible = true;
 
@@ -183,7 +130,7 @@ static bool MainLoop(bool retryCreate)
 
 		// Animate the cube
         static float cubeClock = 0;
-        roomScene->Models[0]->Pos = Vector3f(9 * sin(cubeClock), 3, 9 * cos(cubeClock += 0.015f));
+        //roomScene->Models[0]->Pos = Vector3f(9 * sin(cubeClock), 3, 9 * cos(cubeClock += 0.015f));
 
         // Get eye poses, feeding in correct IPD offset
         ovrVector3f               ViewOffset[2] = { EyeRenderDesc[0].HmdToEyeViewOffset,

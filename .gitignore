@@ -1,1 +1,6 @@
 PhysicsEngine/PhysicsEngine.opensdf
+*.suo
+*.obj
+*.lib
+*.tlog
+*.log

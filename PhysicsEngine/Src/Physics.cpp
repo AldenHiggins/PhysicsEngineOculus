@@ -19,70 +19,75 @@
 
 using namespace PhysicsEngine;
 
-//// Draw the background of the scene
-//void drawBackground();
-//// Integrate all of the rigid bodies
-//void integrateRigidBodies(real duration);
-//// Detect collisions
-//void detectCollisions(std::vector<Collision> *collisionList);
-//// Resolve the found collisions
-//void resolveCollisions(std::vector<Collision> *collisionList, real duration);
-
-// Contains all of the particles in the scene
-std::vector<Particle *> particles;
-// Contains all the rectangular objects in the scene
-std::vector<RectangleObject *> rectangleObjects;
-// Contains all of the spherical objects in the scene
-std::vector<SphereObject *> sphereObjects;
-
-// Camera control variables
-float theta;
-float phi;
-int lastX;
-int lastY;
-
-/**
-* Creates a window in which to display the scene.
-*/
-void createWindow(const char* title)
+void PhysicsMain::addCube(Scene *scene, OVR::Vector3f startPosition, OVR::Vector3f startHalfsize)
 {
-	//glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	//glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-	//glutInitWindowPosition(0, 0);
-	//glutCreateWindow(title);
+	// Test generate the scene
+	static const GLchar* VertexShaderSrc =
+		"#version 150\n"
+		"uniform mat4 matWVP;\n"
+		"in      vec4 Position;\n"
+		"in      vec4 Color;\n"
+		"in      vec2 TexCoord;\n"
+		"out     vec2 oTexCoord;\n"
+		"out     vec4 oColor;\n"
+		"void main()\n"
+		"{\n"
+		"   gl_Position = (matWVP * Position);\n"
+		"   oTexCoord   = TexCoord;\n"
+		"   oColor.rgb  = pow(Color.rgb, vec3(2.2));\n"   // convert from sRGB to linear
+		"   oColor.a    = Color.a;\n"
+		"}\n";
+
+	static const char* FragmentShaderSrc =
+		"#version 150\n"
+		"uniform sampler2D Texture0;\n"
+		"in      vec4      oColor;\n"
+		"in      vec2      oTexCoord;\n"
+		"out     vec4      FragColor;\n"
+		"void main()\n"
+		"{\n"
+		"   FragColor = oColor * texture2D(Texture0, oTexCoord);\n"
+		"}\n";
+
+	GLuint    vshader = scene->CreateShader(GL_VERTEX_SHADER, VertexShaderSrc);
+	GLuint    fshader = scene->CreateShader(GL_FRAGMENT_SHADER, FragmentShaderSrc);
+
+	// Make textures
+	ShaderFill * grid_material[4];
+	for (int k = 0; k < 4; ++k)
+	{
+		static DWORD tex_pixels[256 * 256];
+		for (int j = 0; j < 256; ++j)
+		{
+			for (int i = 0; i < 256; ++i)
+			{
+				if (k == 0) tex_pixels[j * 256 + i] = (((i >> 7) ^ (j >> 7)) & 1) ? 0xffb4b4b4 : 0xff505050;// floor
+				if (k == 1) tex_pixels[j * 256 + i] = (((j / 4 & 15) == 0) || (((i / 4 & 15) == 0) && ((((i / 4 & 31) == 0) ^ ((j / 4 >> 4) & 1)) == 0)))
+					? 0xff3c3c3c : 0xffb4b4b4;// wall
+				if (k == 2) tex_pixels[j * 256 + i] = (i / 4 == 0 || j / 4 == 0) ? 0xff505050 : 0xffb4b4b4;// ceiling
+				if (k == 3) tex_pixels[j * 256 + i] = 0xffffffff;// blank
+			}
+		}
+		TextureBuffer * generated_texture = new TextureBuffer(nullptr, false, false, Sizei(256, 256), 4, (unsigned char *)tex_pixels, 1);
+		grid_material[k] = new ShaderFill(vshader, fshader, generated_texture);
+	}
+
+	glDeleteShader(vshader);
+	glDeleteShader(fshader);
+
+	// Add models to the scene
+	Model * m = new Model(Vector3f(0, 0, 0), grid_material[1]);  // Walls
+	m->AddSolidColorBox(startPosition[0] - startHalfsize[0], startPosition[1] - startHalfsize[1], startPosition[2] - startHalfsize[2],
+		startPosition[0] + startHalfsize[0], startPosition[1] + startHalfsize[1], startPosition[2] + startHalfsize[2], 0xff808080); // Left Wall
+	m->AllocateBuffers();
+	scene->Add(m);
 }
 
-/**
-* Called each frame to update the 3D scene. Delegates to
-* the application.
-*/
-void update()
+// Update the physics engine for this frame
+void PhysicsMain::updatePhysics()
 {
+	// Update the timing for this frame
 	TimingData::get().update();
-	//glutPostRedisplay();
-}
-
-/**
-* Called each frame to display the 3D scene. Delegates to
-* the application.
-*/
-void display()
-{
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//// Light up the scene
-	//GLfloat light_position[] = { -4.0, 50.0, -10.0, 0.0 };
-	//glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-
-	//glLoadIdentity();
-	//// Look out towards the Z direction (eye, center, up)
-	//gluLookAt(0.0, 4.0, 0.0, 0.0, 4.0, 6.0, 0.0, 1.0, 0.0);
-	//// Rotate the camera based on mouse movements
-	//glRotatef(-phi, 1, 0, 0);
-	//glRotatef(theta, 0, 1, 0);
-
-	// Draw the background
-	drawBackground();
-
 	float duration = (float)TimingData::get().lastFrameDuration * 0.001f;
 	if (duration <= 0.0f) return;
 	else if (duration > 0.05f) duration = 0.05f;
@@ -95,30 +100,27 @@ void display()
 	detectCollisions(&collisionList);
 	resolveCollisions(&collisionList, duration);
 	
-	// Draw all of the particles
-	for (unsigned int particleIndex = 0; particleIndex < particles.size(); particleIndex++)
-	{
-		particles[particleIndex]->display();
-	}
-	
-	// Draw all cubes
-	for (unsigned int rigidBodyIndex = 0; rigidBodyIndex < rectangleObjects.size(); rigidBodyIndex++)
-	{
-		rectangleObjects[rigidBodyIndex]->display();
-	}
+	//// Draw all of the particles
+	//for (unsigned int particleIndex = 0; particleIndex < particles.size(); particleIndex++)
+	//{
+	//	particles[particleIndex]->display();
+	//}
+	//
+	//// Draw all cubes
+	//for (unsigned int rigidBodyIndex = 0; rigidBodyIndex < rectangleObjects.size(); rigidBodyIndex++)
+	//{
+	//	rectangleObjects[rigidBodyIndex]->display();
+	//}
 
-	// Draw all spheres
-	for (unsigned int rigidBodyIndex = 0; rigidBodyIndex < sphereObjects.size(); rigidBodyIndex++)
-	{
-		sphereObjects[rigidBodyIndex]->display();
-	}
-
-	//glFlush();
-	//glutSwapBuffers();
+	//// Draw all spheres
+	//for (unsigned int rigidBodyIndex = 0; rigidBodyIndex < sphereObjects.size(); rigidBodyIndex++)
+	//{
+	//	sphereObjects[rigidBodyIndex]->display();
+	//}
 }
 
 // Resolve the found collisions
-void resolveCollisions(std::vector<Collision> *collisionList, real duration)
+void PhysicsMain::resolveCollisions(std::vector<Collision> *collisionList, real duration)
 {
 	if (collisionList->size() > 0)
 	{
@@ -128,7 +130,7 @@ void resolveCollisions(std::vector<Collision> *collisionList, real duration)
 }
 
 // Detect collisions
-void detectCollisions(std::vector<Collision> *collisionList)
+void PhysicsMain::detectCollisions(std::vector<Collision> *collisionList)
 {
 	// Detect cube collisions
 	for (unsigned int rigidBodyIndex = 0; rigidBodyIndex < rectangleObjects.size(); rigidBodyIndex++)
@@ -174,7 +176,7 @@ void detectCollisions(std::vector<Collision> *collisionList)
 }
 
 // Integrate all of the rigid bodies in the scene
-void integrateRigidBodies(real duration)
+void PhysicsMain::integrateRigidBodies(real duration)
 {
 	// Integrate all of the particles
 	for (unsigned int particleIndex = 0; particleIndex < particles.size(); particleIndex++)
@@ -225,165 +227,4 @@ void integrateRigidBodies(real duration)
 			sphereObjects[rigidBodyIndex]->body->integrate(duration);
 		}
 	}
-}
-
-// Draw the background of the scene
-void drawBackground()
-{
-	//// Draw the ground
-	//glBegin(GL_QUADS);
-	//glColor3f(1.0f, 1.0f, 1.0f);
-	//glNormal3f(0, 1, 0);
-	//glVertex3f(20, 0, 20);
-	//glVertex3f(20, 0, -20);
-	//glVertex3f(-20, 0, -20);
-	//glVertex3f(-20, 0, 20);
-	//// Draw the walls
-	//// Front wall
-	//glColor3f(0.9f, 0.9f, 0.9f);
-	//glNormal3f(0, 0, -1);
-	//glVertex3f(20, 0, 20);
-	//glVertex3f(20, 20, 20);
-	//glVertex3f(-20, 20, 20);
-	//glVertex3f(-20, 0, 20);
-	//// Back Wall
-	//glColor3f(0.8f, 0.8f, 0.8f);
-	//glNormal3f(0, 0, 1);
-	//glVertex3f(20, 0, -20);
-	//glVertex3f(20, 20, -20);
-	//glVertex3f(-20, 20, -20);
-	//glVertex3f(-20, 0, -20);
-	//// Left Wall
-	//glColor3f(0.7f, 0.7f, 0.7f);
-	//glNormal3f(-1, 0, 0);
-	//glVertex3f(20, 0, -20);
-	//glVertex3f(20, 20, -20);
-	//glVertex3f(20, 20, 20);
-	//glVertex3f(20, 0, 20);
-	//// Right Wall
-	//glColor3f(0.6f, 0.6f, 0.6f);
-	//glNormal3f(1, 0, 0);
-	//glVertex3f(-20, 0, 20);
-	//glVertex3f(-20, 20, 20);
-	//glVertex3f(-20, 20, -20);
-	//glVertex3f(-20, 0, -20);
-	//// Draw the lines of the axes
-	//glColor3f(0.0f, 0.0f, 0.0f);
-	//// x axis
-	//glVertex3f(20, .01, AXES_WIDTH/2);
-	//glVertex3f(20, .01, -1 * AXES_WIDTH/2);
-	//glVertex3f(-20, .01, -1 * AXES_WIDTH/2);
-	//glVertex3f(-20, .01, AXES_WIDTH/2);
-	//// z axis
-	//glVertex3f(AXES_WIDTH/2, .01, 20);
-	//glVertex3f(-1 * AXES_WIDTH/2, .01, 20);
-	//glVertex3f(-1 * AXES_WIDTH/2, .01, -20);
-	//glVertex3f(AXES_WIDTH/2, .01, -20);
-	//glEnd();
-}
-
-/**
-* Called when a mouse button is pressed. Delegates to the
-* application.
-*/
-void mouse(int button, int state, int x, int y)
-{
-	lastX = x;
-	lastY = y;
-}
-
-/**
-* Called when the display window changes size.
-*/
-void reshape(int width, int height)
-{
-}
-
-/**
-* Called when a key is pressed.
-*/
-void keyboard(unsigned char key, int x, int y)
-{
-	Controls::keyCheck(key, &particles, &rectangleObjects, &sphereObjects, theta, phi);
-}
-
-
-/**
-* Called when the mouse is dragged.
-*/
-void motion(int x, int y)
-{
-	// Update the camera
-	theta += (x - lastX)*0.25f;
-	phi += (y - lastY)*0.25f;
-
-	// Keep it in bounds
-	if (phi < -20.0f) phi = -20.0f;
-	else if (phi > 80.0f) phi = 80.0f;
-
-	// Remember the position
-	lastX = x;
-	lastY = y;
-}
-
-void initializeGraphics()
-{
-	//// Create a light
-	//GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-	//GLfloat mat_shininess[] = { 50.0 };
-	//GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };
-	//glClearColor(0.0, 0.0, 0.0, 0.0);
-	//glShadeModel(GL_SMOOTH);
-
-	//glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-	//glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-	//glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-
-	//glEnable(GL_LIGHTING);
-	//glEnable(GL_LIGHT0);
-	//glEnable(GL_DEPTH_TEST);
-	//
-	//// Enable color
-	//glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
-	//glEnable(GL_COLOR_MATERIAL);
-
-	//// Now set the view
-	//glMatrixMode(GL_PROJECTION);
-	//glLoadIdentity();
-	//gluPerspective(60.0, (double)SCREEN_WIDTH / (double)SCREEN_HEIGHT, 1.0, 500.0);
-	//glMatrixMode(GL_MODELVIEW);
-}
-
-void initializeScene()
-{
-	// Initialize the timers
-	TimingData::init();
-}
-
-/**
-* The main entry point. We pass arguments onto GLUT.
-*/
-int main(int argc, char** argv)
-{
-	//// Initialize everything needed for the current scene
-	//initializeScene();
-	//// Set up GLUT and the timers
-	//glutInit(&argc, argv);
-
-	//// Create the application and its window
-	//createWindow("PhysicsEngine");
-
-	//// Set up the appropriate handler functions
-	//glutReshapeFunc(reshape);
-	//glutKeyboardFunc(keyboard);
-	//glutDisplayFunc(display);
-	//glutIdleFunc(update);
-	//glutMouseFunc(mouse);
-	//glutMotionFunc(motion);
-
-	//// Initialize the graphics
-	//initializeGraphics();
-
-	//// Run the application
-	//glutMainLoop();
 }

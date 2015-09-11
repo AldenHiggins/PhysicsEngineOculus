@@ -1,17 +1,30 @@
 #ifndef PHYSICS_H
 #define PHYSICS_H
 
+#include "MathDataTypes.h"
+#include "Timing.h"
+#include "Collisions.h"
+#include "Particle.h"
+#include <vector>
+#include "Win32_GLAppUtil.h"
 
 namespace PhysicsEngine
 {
 	class PhysicsMain
 	{
 	public:
+		// Update the physics engine for this frame
+		void updatePhysics();
 
+		PhysicsMain()
+		{
+			TimingData::init();
+		}
+
+		// Add a new cube to the scene
+		void addCube(Scene *scene, OVR::Vector3f startPosition, OVR::Vector3f startHalfsize);
 
 	private:
-		// Draw the background of the scene
-		void drawBackground();
 		// Integrate all of the rigid bodies
 		void integrateRigidBodies(real duration);
 		// Detect collisions
