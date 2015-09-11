@@ -1,14 +1,26 @@
-﻿Build started 9/11/2015 12:00:18 PM.
+﻿Build started 9/11/2015 2:12:11 PM.
      1>Project "D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\OculusRoomTiny (GL).vcxproj" on node 2 (Build target(s)).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(388,5): warning MSB8028: The intermediate directory (D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Obj\Windows\Win32\Debug\VS2013\) contains files shared from another project (OculusRoomTiny (GL).vcxproj).  This can lead to incorrect clean and rebuild behavior.
      1>ClCompile:
-         D:\Programs\VisualStudio\VC\bin\CL.exe /c /ID:\Code\TestOculusIntegration\LibOVRKernel\Src\ /ID:\Code\TestOculusIntegration\LibOVR\Include\ /ID:\Code\TestOculusIntegration\PhysicsEngine\Include\ /Z7 /nologo /W3 /WX /MP /Od /Oy- /D OVR_BUILD_DEBUG /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR- /Fo"D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Obj\Windows\Win32\Debug\VS2013\\" /Fd"D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Obj\Windows\Win32\Debug\VS2013\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\..\Src\main.cpp
-         main.cpp
+         D:\Programs\VisualStudio\VC\bin\CL.exe /c /ID:\Code\TestOculusIntegration\LibOVRKernel\Src\ /ID:\Code\TestOculusIntegration\LibOVR\Include\ /ID:\Code\TestOculusIntegration\PhysicsEngine\Include\ /Z7 /nologo /W3 /WX /MP /Od /Oy- /D OVR_BUILD_DEBUG /D WIN32 /D _DEBUG /D _WINDOWS /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR- /Fo"D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Obj\Windows\Win32\Debug\VS2013\\" /Fd"D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Obj\Windows\Win32\Debug\VS2013\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\..\Src\PhysicsMain.cpp
+         PhysicsMain.cpp
        Link:
-         D:\Programs\VisualStudio\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Bin\Windows\Win32\Debug\VS2013\PhysicsEngine.exe" /INCREMENTAL /NOLOGO D:\Code\TestOculusIntegration\LibOVRKernel\Lib\Windows\Win32\Debug\VS2013\LibOVRKernel.lib D:\Code\TestOculusIntegration\LibOVR\Lib\Windows\Win32\Debug\VS2013\LibOVR.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:D:\Programs\VisualStudio\VC\Include\Manifest\PerMonitorHighDPIAware.manifest /DEBUG /PDB:"D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Bin\Windows\Win32\Debug\VS2013\PhysicsEngine.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Bin\Windows\Win32\Debug\VS2013\PhysicsEngine.lib" /MACHINE:X86 D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Obj\Windows\Win32\Debug\VS2013\main.obj
+         D:\Programs\VisualStudio\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Bin\Windows\Win32\Debug\VS2013\PhysicsEngine.exe" /INCREMENTAL /NOLOGO D:\Code\TestOculusIntegration\LibOVRKernel\Lib\Windows\Win32\Debug\VS2013\LibOVRKernel.lib D:\Code\TestOculusIntegration\LibOVR\Lib\Windows\Win32\Debug\VS2013\LibOVR.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:D:\Programs\VisualStudio\VC\Include\Manifest\PerMonitorHighDPIAware.manifest /DEBUG /PDB:"D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Bin\Windows\Win32\Debug\VS2013\PhysicsEngine.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Bin\Windows\Win32\Debug\VS2013\PhysicsEngine.lib" /MACHINE:X86 D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Obj\Windows\Win32\Debug\VS2013\BoundingVolumes.obj
+         D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Obj\Windows\Win32\Debug\VS2013\CollisionDetection.obj
+         D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Obj\Windows\Win32\Debug\VS2013\CollisionResolver.obj
+         D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Obj\Windows\Win32\Debug\VS2013\Collisions.obj
+         D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Obj\Windows\Win32\Debug\VS2013\Controls.obj
+         D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Obj\Windows\Win32\Debug\VS2013\Debug.obj
+         D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Obj\Windows\Win32\Debug\VS2013\main.obj
+         D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Obj\Windows\Win32\Debug\VS2013\MathDataTypes.obj
+         D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Obj\Windows\Win32\Debug\VS2013\Particle.obj
+         D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Obj\Windows\Win32\Debug\VS2013\PhysicsMain.obj
+         D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Obj\Windows\Win32\Debug\VS2013\RenderableObjects.obj
+         D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Obj\Windows\Win32\Debug\VS2013\RigidBody.obj
+         D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Obj\Windows\Win32\Debug\VS2013\Timing.obj
          OculusRoomTiny (GL).vcxproj -> D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\..\..\..\Bin\Windows\Win32\Debug\VS2013\PhysicsEngine.exe
      1>Done Building Project "D:\Code\TestOculusIntegration\PhysicsEngine\Projects\Windows\VS2013\OculusRoomTiny (GL).vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:03.88
+Time Elapsed 00:00:01.49

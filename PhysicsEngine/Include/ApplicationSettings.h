@@ -1,0 +1,20 @@
+#ifndef APPLICATION_SETTINGS_H
+#define APPLICATION_SETTINGS_H
+
+// Define globally used general-purpose variables
+
+#define SCREEN_WIDTH 1000
+#define SCREEN_HEIGHT 500
+#define MAX_PARTICLE_COUNT 100
+#define MAX_RIGIDBODY_COUNT 10
+#define MAX_CONTACTS_PER_FRAME 10
+#define AXES_WIDTH .3
+#define GLOBAL_RESTITUTION .2f
+#define SQUARE_LINEAR_DAMPING .99f
+#define SQUARE_ANGULAR_DAMPING .8f
+#define SPHERE_STACKS 10
+#define SPHERE_SLICES 10
+
+#define PI 3.14159265
+
+#endif // APPLICATION_SETTINGS_H

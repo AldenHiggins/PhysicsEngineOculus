@@ -19,9 +19,35 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Src\BoundingVolumes.cpp" />
+    <ClCompile Include="..\..\..\Src\CollisionDetection.cpp" />
+    <ClCompile Include="..\..\..\Src\CollisionResolver.cpp" />
+    <ClCompile Include="..\..\..\Src\Collisions.cpp" />
+    <ClCompile Include="..\..\..\Src\Controls.cpp" />
+    <ClCompile Include="..\..\..\Src\Debug.cpp" />
     <ClCompile Include="..\..\..\Src\main.cpp" />
+    <ClCompile Include="..\..\..\Src\MathDataTypes.cpp" />
+    <ClCompile Include="..\..\..\Src\Particle.cpp" />
+    <ClCompile Include="..\..\..\Src\PhysicsMain.cpp" />
+    <ClCompile Include="..\..\..\Src\RenderableObjects.cpp" />
+    <ClCompile Include="..\..\..\Src\RigidBody.cpp" />
+    <ClCompile Include="..\..\..\Src\Timing.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Include\ApplicationSettings.h" />
+    <ClInclude Include="..\..\..\Include\BoundingVolumes.h" />
+    <ClInclude Include="..\..\..\Include\CollisionDetection.h" />
+    <ClInclude Include="..\..\..\Include\CollisionPrimitives.h" />
+    <ClInclude Include="..\..\..\Include\CollisionResolver.h" />
+    <ClInclude Include="..\..\..\Include\Collisions.h" />
+    <ClInclude Include="..\..\..\Include\Controls.h" />
+    <ClInclude Include="..\..\..\Include\Debug.h" />
+    <ClInclude Include="..\..\..\Include\MathDataTypes.h" />
+    <ClInclude Include="..\..\..\Include\Particle.h" />
+    <ClInclude Include="..\..\..\Include\Precision.h" />
+    <ClInclude Include="..\..\..\Include\RenderableObjects.h" />
+    <ClInclude Include="..\..\..\Include\RigidBody.h" />
+    <ClInclude Include="..\..\..\Include\Timing.h" />
     <ClInclude Include="..\..\..\Include\Win32_GLAppUtil.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
