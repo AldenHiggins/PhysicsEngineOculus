@@ -4,3 +4,8 @@ PhysicsEngine/PhysicsEngine.opensdf
 *.lib
 *.tlog
 *.log
+*.exe
+*.pdb
+*.sdf
+*.vcxproj
+*.filters
