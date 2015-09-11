@@ -1,0 +1,12 @@
+﻿Build started 9/11/2015 10:13:52 AM.
+     1>Project "D:\Programs\OculusSDK\Samples\OculusRoomTiny\OculusRoomTiny (GL)\Projects\Windows\VS2013\OculusRoomTiny (GL).vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         D:\Programs\VisualStudio\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Programs\OculusSDK\Samples\OculusRoomTiny\OculusRoomTiny (GL)\Projects\Windows\VS2013\..\..\..\Bin\Windows\Win32\Release\VS2013\OculusRoomTiny (GL).exe" /INCREMENTAL:NO /NOLOGO "D:\Programs\OculusSDK\Samples\OculusRoomTiny\OculusRoomTiny (GL)\Projects\Windows\VS2013\../../../../../../LibOVRKernel/Lib/Windows/Win32/Release/VS2013/LibOVRKernel.lib" "D:\Programs\OculusSDK\Samples\OculusRoomTiny\OculusRoomTiny (GL)\Projects\Windows\VS2013\../../../../../../LibOVR/Lib/Windows/Win32/Release/VS2013/LibOVR.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:D:\Programs\VisualStudio\VC\Include\Manifest\PerMonitorHighDPIAware.manifest /DEBUG /PDB:"D:\Programs\OculusSDK\Samples\OculusRoomTiny\OculusRoomTiny (GL)\Projects\Windows\VS2013\..\..\..\Bin\Windows\Win32\Release\VS2013\OculusRoomTiny (GL).pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Programs\OculusSDK\Samples\OculusRoomTiny\OculusRoomTiny (GL)\Projects\Windows\VS2013\..\..\..\Bin\Windows\Win32\Release\VS2013\OculusRoomTiny (GL).lib" /MACHINE:X86 /SAFESEH "D:\Programs\OculusSDK\Samples\OculusRoomTiny\OculusRoomTiny (GL)\Projects\Windows\VS2013\..\..\..\Obj\Windows\Win32\Release\VS2013\main.obj"
+         Generating code
+         Finished generating code
+         OculusRoomTiny (GL).vcxproj -> D:\Programs\OculusSDK\Samples\OculusRoomTiny\OculusRoomTiny (GL)\Projects\Windows\VS2013\..\..\..\Bin\Windows\Win32\Release\VS2013\OculusRoomTiny (GL).exe
+     1>Done Building Project "D:\Programs\OculusSDK\Samples\OculusRoomTiny\OculusRoomTiny (GL)\Projects\Windows\VS2013\OculusRoomTiny (GL).vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.17

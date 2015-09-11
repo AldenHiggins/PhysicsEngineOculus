@@ -1,0 +1,9 @@
+﻿Build started 9/11/2015 11:08:49 AM.
+     1>Project "D:\Code\TestOculusIntegration\LibOVRKernel\Projects\Windows\VS2013\LibOVRKernel.vcxproj" on node 3 (Build target(s)).
+     1>Lib:
+         LibOVRKernel.vcxproj -> D:\Code\TestOculusIntegration\LibOVRKernel\Projects\Windows\VS2013\../../../Lib/Windows/Win32/Debug/VS2013/LibOVRKernel.lib
+     1>Done Building Project "D:\Code\TestOculusIntegration\LibOVRKernel\Projects\Windows\VS2013\LibOVRKernel.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.10
