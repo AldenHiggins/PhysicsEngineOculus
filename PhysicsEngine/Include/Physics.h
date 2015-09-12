@@ -16,15 +16,15 @@ namespace PhysicsEngine
 		// Update the physics engine for this frame
 		void updatePhysics();
 
-		PhysicsMain()
-		{
-			TimingData::init();
-		}
+		void initializePhysics(OVR::Scene *scene);
 
 		// Add a new cube to the scene
 		void addCube(OVR::Scene *scene, OVR::Vector3f startPosition, OVR::Vector3f startHalfsize);
 
 	private:
+		// Store the materials generated in the example code for later use
+		OVR::ShaderFill * grid_material[4];
+
 		// Integrate all of the rigid bodies
 		void integrateRigidBodies(real duration);
 		// Detect collisions

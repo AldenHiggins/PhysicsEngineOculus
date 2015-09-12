@@ -106,9 +106,11 @@ static bool MainLoop(bool retryCreate)
     // Make scene - can simplify further if needed
     roomScene = new Scene(false);
 
-	// Add a cube to the scene
-	physics.addCube(roomScene, Vector3f(0.0f, 3.0f, 10.0f), Vector3f(.5f, .5f, .5f));
+	// Initialize the physics engine
+	physics.initializePhysics(roomScene);
 
+	// Add a cube to the scene
+	physics.addCube(roomScene, Vector3f(0.0f, 10.0f, 10.0f), Vector3f(.5f, .5f, .5f));
 
     bool isVisible = true;
 

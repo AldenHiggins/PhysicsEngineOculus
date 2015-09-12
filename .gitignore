@@ -9,3 +9,4 @@ PhysicsEngine/PhysicsEngine.opensdf
 *.sdf
 *.vcxproj
 *.filters
+*.ilk

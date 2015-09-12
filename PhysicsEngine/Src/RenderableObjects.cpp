@@ -18,6 +18,13 @@ void RectangleObject::display()
 	//glPopMatrix();
 }
 
+// Sync up this rectangle's model with the rigid body
+void RectangleObject::syncModelWithRigidBody()
+{
+	Vector3 position = body->getPosition();
+	model->Pos = OVR::Vector3f((float)position[0], (float)position[1], (float)position[2]);
+}
+
 // Display this sphere
 void SphereObject::display()
 {

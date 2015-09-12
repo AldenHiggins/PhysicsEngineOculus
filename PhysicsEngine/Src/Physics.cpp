@@ -19,8 +19,12 @@
 
 using namespace PhysicsEngine;
 
-void PhysicsMain::addCube(OVR::Scene *scene, OVR::Vector3f startPosition, OVR::Vector3f startHalfsize)
+// Construct the physics engine
+void PhysicsMain::initializePhysics(OVR::Scene *scene)
 {
+	// Initialize the timer
+	TimingData::init();
+	// Generate the textures we will use later
 	// Test generate the scene
 	static const GLchar* VertexShaderSrc =
 		"#version 150\n"
@@ -53,7 +57,7 @@ void PhysicsMain::addCube(OVR::Scene *scene, OVR::Vector3f startPosition, OVR::V
 	GLuint    fshader = scene->CreateShader(GL_FRAGMENT_SHADER, FragmentShaderSrc);
 
 	// Make textures
-	OVR::ShaderFill * grid_material[4];
+	//OVR::ShaderFill * grid_material[4];
 	for (int k = 0; k < 4; ++k)
 	{
 		static DWORD tex_pixels[256 * 256];
@@ -74,7 +78,10 @@ void PhysicsMain::addCube(OVR::Scene *scene, OVR::Vector3f startPosition, OVR::V
 
 	glDeleteShader(vshader);
 	glDeleteShader(fshader);
+}
 
+void PhysicsMain::addCube(OVR::Scene *scene, OVR::Vector3f startPosition, OVR::Vector3f startHalfsize)
+{
 	// Add models to the scene
 	OVR::Model * m = new OVR::Model(OVR::Vector3f(0, 0, 0), grid_material[1]);  // Walls
 	m->AddSolidColorBox(startPosition[0] - startHalfsize[0], startPosition[1] - startHalfsize[1], startPosition[2] - startHalfsize[2],
@@ -82,7 +89,7 @@ void PhysicsMain::addCube(OVR::Scene *scene, OVR::Vector3f startPosition, OVR::V
 	m->AllocateBuffers();
 	scene->Add(m);
 
-
+	// Add the model to a new rigid body that is generated
 	RectangleObject *newSquare = new RectangleObject(m);
 	newSquare->setState(Vector3(startPosition[0], startPosition[1], startPosition[2]), Vector3(0.0f, 0.0f, 0.0f), Vector3::GRAVITY, 1.0f, Vector3(startHalfsize[0], startHalfsize[1], startHalfsize[2]));
 	rectangleObjects.push_back(newSquare);
@@ -105,7 +112,11 @@ void PhysicsMain::updatePhysics()
 	detectCollisions(&collisionList);
 	resolveCollisions(&collisionList, duration);
 
-	
+	// Now go through all the rigid bodies and have them update their models' positions
+	for (unsigned int rectangleIndex = 0; rectangleIndex < rectangleObjects.size(); rectangleIndex++)
+	{
+		rectangleObjects[rectangleIndex]->syncModelWithRigidBody();
+	}
 	
 	//// Draw all of the particles
 	//for (unsigned int particleIndex = 0; particleIndex < particles.size(); particleIndex++)

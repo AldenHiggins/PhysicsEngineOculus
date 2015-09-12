@@ -36,6 +36,8 @@ namespace PhysicsEngine
 
 		// Display this rectangle
 		void display();
+
+		void syncModelWithRigidBody();
 	};
 
 	class SphereObject : public CollisionSphere
