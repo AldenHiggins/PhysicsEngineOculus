@@ -23,6 +23,11 @@ void RectangleObject::syncModelWithRigidBody()
 {
 	Vector3 position = body->getPosition();
 	model->Pos = OVR::Vector3f((float)position[0], (float)position[1], (float)position[2]);
+	Quaternion rotation = body->getOrientation();
+	model->Rot.x = (float)rotation.i;
+	model->Rot.y = (float)rotation.j;
+	model->Rot.z = (float)rotation.k;
+	model->Rot.w = (float)rotation.r;
 }
 
 // Display this sphere
