@@ -22,7 +22,7 @@ namespace PhysicsEngine
 		}
 
 		// Add a new cube to the scene
-		void addCube(Scene *scene, OVR::Vector3f startPosition, OVR::Vector3f startHalfsize);
+		void addCube(OVR::Scene *scene, OVR::Vector3f startPosition, OVR::Vector3f startHalfsize);
 
 	private:
 		// Integrate all of the rigid bodies

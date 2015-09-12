@@ -3,6 +3,7 @@
 
 #include "MathDataTypes.h"
 #include "RigidBody.h"
+#include "Win32_GLAppUtil.h"
 
 namespace PhysicsEngine
 {
@@ -10,6 +11,7 @@ namespace PhysicsEngine
 	{
 	public:
 		RigidBody *body;
+		OVR::Model *model;
 		//Matrix4 transformOffset;
 	};
 

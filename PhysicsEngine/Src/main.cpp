@@ -132,6 +132,9 @@ static bool MainLoop(bool retryCreate)
         static float cubeClock = 0;
         //roomScene->Models[0]->Pos = Vector3f(9 * sin(cubeClock), 3, 9 * cos(cubeClock += 0.015f));
 
+		// Update the physics
+		physics.updatePhysics();
+
         // Get eye poses, feeding in correct IPD offset
         ovrVector3f               ViewOffset[2] = { EyeRenderDesc[0].HmdToEyeViewOffset,
                                                     EyeRenderDesc[1].HmdToEyeViewOffset };

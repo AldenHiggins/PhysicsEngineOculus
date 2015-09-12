@@ -9,9 +9,10 @@ namespace PhysicsEngine
 	class RectangleObject : public CollisionBox
 	{
 	public:
-		RectangleObject()
+		RectangleObject(OVR::Model *modelInput)
 		{
 			body = new RigidBody();
+			model = modelInput;
 		}
 
 		~RectangleObject()

@@ -19,7 +19,7 @@
 
 using namespace PhysicsEngine;
 
-void PhysicsMain::addCube(Scene *scene, OVR::Vector3f startPosition, OVR::Vector3f startHalfsize)
+void PhysicsMain::addCube(OVR::Scene *scene, OVR::Vector3f startPosition, OVR::Vector3f startHalfsize)
 {
 	// Test generate the scene
 	static const GLchar* VertexShaderSrc =
@@ -53,7 +53,7 @@ void PhysicsMain::addCube(Scene *scene, OVR::Vector3f startPosition, OVR::Vector
 	GLuint    fshader = scene->CreateShader(GL_FRAGMENT_SHADER, FragmentShaderSrc);
 
 	// Make textures
-	ShaderFill * grid_material[4];
+	OVR::ShaderFill * grid_material[4];
 	for (int k = 0; k < 4; ++k)
 	{
 		static DWORD tex_pixels[256 * 256];
@@ -68,19 +68,24 @@ void PhysicsMain::addCube(Scene *scene, OVR::Vector3f startPosition, OVR::Vector
 				if (k == 3) tex_pixels[j * 256 + i] = 0xffffffff;// blank
 			}
 		}
-		TextureBuffer * generated_texture = new TextureBuffer(nullptr, false, false, Sizei(256, 256), 4, (unsigned char *)tex_pixels, 1);
-		grid_material[k] = new ShaderFill(vshader, fshader, generated_texture);
+		OVR::TextureBuffer * generated_texture = new OVR::TextureBuffer(nullptr, false, false, OVR::Sizei(256, 256), 4, (unsigned char *)tex_pixels, 1);
+		grid_material[k] = new OVR::ShaderFill(vshader, fshader, generated_texture);
 	}
 
 	glDeleteShader(vshader);
 	glDeleteShader(fshader);
 
 	// Add models to the scene
-	Model * m = new Model(Vector3f(0, 0, 0), grid_material[1]);  // Walls
+	OVR::Model * m = new OVR::Model(OVR::Vector3f(0, 0, 0), grid_material[1]);  // Walls
 	m->AddSolidColorBox(startPosition[0] - startHalfsize[0], startPosition[1] - startHalfsize[1], startPosition[2] - startHalfsize[2],
 		startPosition[0] + startHalfsize[0], startPosition[1] + startHalfsize[1], startPosition[2] + startHalfsize[2], 0xff808080); // Left Wall
 	m->AllocateBuffers();
 	scene->Add(m);
+
+
+	RectangleObject *newSquare = new RectangleObject(m);
+	newSquare->setState(Vector3(startPosition[0], startPosition[1], startPosition[2]), Vector3(0.0f, 0.0f, 0.0f), Vector3::GRAVITY, 1.0f, Vector3(startHalfsize[0], startHalfsize[1], startHalfsize[2]));
+	rectangleObjects.push_back(newSquare);
 }
 
 // Update the physics engine for this frame
@@ -99,6 +104,8 @@ void PhysicsMain::updatePhysics()
 	std::vector<Collision> collisionList;
 	detectCollisions(&collisionList);
 	resolveCollisions(&collisionList, duration);
+
+	
 	
 	//// Draw all of the particles
 	//for (unsigned int particleIndex = 0; particleIndex < particles.size(); particleIndex++)

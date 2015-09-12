@@ -158,9 +158,9 @@ void Controls::addForceToCube(std::vector<RectangleObject *> *rigidBodies)
 // Add a rigid cube with the inputted parameters
 void Controls::addRigidCube(std::vector<RectangleObject *> *rigidBodies, Vector3 position, Vector3 velocity, real mass, Vector3 halfSize)
 {
-	RectangleObject *newSquare = new RectangleObject();
-	newSquare->setState(position, velocity, Vector3::GRAVITY, mass, halfSize);
-	rigidBodies->push_back(newSquare);
+	//RectangleObject *newSquare = new RectangleObject();
+	//newSquare->setState(position, velocity, Vector3::GRAVITY, mass, halfSize);
+	//rigidBodies->push_back(newSquare);
 }
 
 // Add a cube rigid body to the scene
