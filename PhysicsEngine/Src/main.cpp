@@ -110,12 +110,14 @@ static bool MainLoop(bool retryCreate)
 	physics.initializePhysics(roomScene);
 
 	// Add the ground
-	physics.addCube(roomScene, Vector3f(0.0f, 0.0f, 0.0f), Vector3f(10.0f, .01f, 10.0f), false);
+	physics.addCube(roomScene, Vector3f(0.0f, 0.0f, 0.0f), Vector3f(10.0f, .01f, 10.0f), Vector3f(0.0f, 0.0f, 0.0f), false);
 
 	// Add a cube to the scene
-	physics.addCube(roomScene, Vector3f(0.0f, 10.0f, 5.0f), Vector3f(.5f, .5f, .5f), true);
-
-
+	physics.addCube(roomScene, Vector3f(0.0f, 10.0f, 5.0f), Vector3f(.5f, .5f, .5f), Vector3f(1.0f, 0.0f, 0.0f), true);
+	physics.addCube(roomScene, Vector3f(0.0f, 13.0f, 5.0f), Vector3f(.5f, .5f, .5f), Vector3f(1.0f, 0.0f, 0.0f), true);
+	physics.addCube(roomScene, Vector3f(5.0f, 8.0f, 5.0f), Vector3f(.5f, .5f, .5f), Vector3f(0.0f, 1.0f, 0.0f), true);
+	physics.addCube(roomScene, Vector3f(-5.0f, 10.0f, 5.0f), Vector3f(.5f, .5f, .5f), Vector3f(1.0f, 0.0f, 1.0f), true);
+	physics.addCube(roomScene, Vector3f(0.0f, 10.0f, 1.0f), Vector3f(.5f, .5f, .5f), Vector3f(1.0f, 0.0f, -1.0f), true);
 
     bool isVisible = true;
 

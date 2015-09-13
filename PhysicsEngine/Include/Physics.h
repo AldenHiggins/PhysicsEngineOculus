@@ -19,7 +19,7 @@ namespace PhysicsEngine
 		void initializePhysics(OVR::Scene *scene);
 
 		// Add a new cube to the scene
-		void addCube(OVR::Scene *scene, OVR::Vector3f startPosition, OVR::Vector3f startHalfsize, bool usePhysics);
+		void addCube(OVR::Scene *scene, OVR::Vector3f startPosition, OVR::Vector3f startHalfsize, OVR::Vector3f startVelocity, bool usePhysics);
 
 	private:
 		// Store the materials generated in the example code for later use
