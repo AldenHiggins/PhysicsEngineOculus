@@ -110,14 +110,7 @@ static bool MainLoop(bool retryCreate)
 	physics.initializePhysics(roomScene);
 
 	// Add the ground
-	physics.addCube(roomScene, Vector3f(0.0f, 0.0f, 0.0f), Vector3f(10.0f, .01f, 10.0f), Vector3f(0.0f, 0.0f, 0.0f), false);
-
-	// Add a cube to the scene
-	physics.addCube(roomScene, Vector3f(0.0f, 10.0f, 5.0f), Vector3f(.5f, .5f, .5f), Vector3f(1.0f, 0.0f, 0.0f), true);
-	physics.addCube(roomScene, Vector3f(0.0f, 13.0f, 5.0f), Vector3f(.5f, .5f, .5f), Vector3f(1.0f, 0.0f, 0.0f), true);
-	physics.addCube(roomScene, Vector3f(5.0f, 8.0f, 5.0f), Vector3f(.5f, .5f, .5f), Vector3f(0.0f, 1.0f, 0.0f), true);
-	physics.addCube(roomScene, Vector3f(-5.0f, 10.0f, 5.0f), Vector3f(.5f, .5f, .5f), Vector3f(1.0f, 0.0f, 1.0f), true);
-	physics.addCube(roomScene, Vector3f(0.0f, 10.0f, 1.0f), Vector3f(.5f, .5f, .5f), Vector3f(1.0f, 0.0f, -1.0f), true);
+	physics.addCube(roomScene, Vector3f(0.0f, 0.0f, 0.0f), Vector3f(10.0f, .01f, 10.0f), Vector3f(0.0f, 0.0f, 0.0f), false, false);
 
     bool isVisible = true;
 
@@ -136,6 +129,25 @@ static bool MainLoop(bool retryCreate)
         if (Platform.Key['D'])                          Pos2+=Matrix4f::RotationY(Yaw).Transform(Vector3f(+0.05f,0,0));
         if (Platform.Key['A'])                          Pos2+=Matrix4f::RotationY(Yaw).Transform(Vector3f(-0.05f,0,0));
         Pos2.y = ovr_GetFloat(HMD, OVR_KEY_EYE_HEIGHT, Pos2.y);
+
+		// Check for controls to add physics objects to the scene
+		if (Platform.Key['1'])
+		{
+			// POSITION    HALFSIZE   VELOCITY
+			physics.addCube(roomScene, Vector3f(0.0f, 8.0f, 5.0f), Vector3f(.5f, .5f, .5f), Vector3f(1.0f, 0.0f, 0.0f), false, true);
+			physics.addCube(roomScene, Vector3f(1.0f, 8.0f, 5.0f), Vector3f(.5f, .5f, .5f), Vector3f(1.0f, 0.0f, 0.0f), false, true);
+
+			physics.addCube(roomScene, Vector3f(1.0f, 7.0f, 3.0f), Vector3f(.5f, .5f, .5f), Vector3f(-1.0f, 1.0f, 0.0f), false, true);
+			physics.addCube(roomScene, Vector3f(2.0f, 8.0f, 3.0f), Vector3f(.5f, .5f, .5f), Vector3f(-1.0f, 1.0f, 0.0f), false, true);
+
+			physics.addCube(roomScene, Vector3f(-1.0f, 6.0f, 5.0f), Vector3f(.5f, .5f, .5f), Vector3f(0.0f, 0.0f, 0.0f), false, true);
+			physics.addCube(roomScene, Vector3f(-1.0f, 6.0f, 3.0f), Vector3f(.5f, .5f, .5f), Vector3f(0.0f, 2.0f, 0.0f), false, true);
+
+			physics.addCube(roomScene, Vector3f(1.0f, 5.0f, 5.0f), Vector3f(.5f, .5f, .5f), Vector3f(-1.0f, 2.0f, 0.0f), false, true);
+
+
+			physics.addCube(roomScene, Vector3f(10.0f, 7.0f, 5.0f), Vector3f(.5f, .5f, .5f), Vector3f(-15.0f, 0.0f, 0.0f), false, true);
+		}
 
 		// Animate the cube
         static float cubeClock = 0;

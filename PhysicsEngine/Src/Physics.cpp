@@ -80,8 +80,13 @@ void PhysicsMain::initializePhysics(OVR::Scene *scene)
 	glDeleteShader(fshader);
 }
 
-void PhysicsMain::addCube(OVR::Scene *scene, OVR::Vector3f startPosition, OVR::Vector3f startHalfsize, OVR::Vector3f startVelocity, bool usePhysics)
+void PhysicsMain::addCube(OVR::Scene *scene, OVR::Vector3f startPosition, OVR::Vector3f startHalfsize, OVR::Vector3f startVelocity, bool useGravity, bool usePhysics)
 {
+	// Make sure not to add more models than the scene can support
+	if (scene->numModels >= 10)
+	{
+		return;
+	}
 	// Add models to the scene
 	OVR::Model * m = new OVR::Model(startPosition, grid_material[1]);  // Walls
 	m->AddSolidColorBox(-startHalfsize[0], -startHalfsize[1], -startHalfsize[2], startHalfsize[0], startHalfsize[1], startHalfsize[2], 0xff808080); // Left Wall
@@ -90,9 +95,16 @@ void PhysicsMain::addCube(OVR::Scene *scene, OVR::Vector3f startPosition, OVR::V
 
 	if (usePhysics)
 	{
+		Vector3 acceleration = Vector3::GRAVITY;
+		if (!useGravity)
+		{
+			acceleration = Vector3(0.0f, 0.0f, 0.0f);
+		}
+
 		// Add the model to a new rigid body that is generated
 		RectangleObject *newSquare = new RectangleObject(m);
-		newSquare->setState(Vector3(startPosition[0], startPosition[1], startPosition[2]), Vector3(startVelocity[0], startVelocity[1], startVelocity[2]), Vector3::GRAVITY, 1.0f, Vector3(startHalfsize[0], startHalfsize[1], startHalfsize[2]));
+		newSquare->setState(Vector3(startPosition[0], startPosition[1], startPosition[2]), Vector3(startVelocity[0], startVelocity[1], startVelocity[2]), acceleration,
+			1.0f, Vector3(startHalfsize[0], startHalfsize[1], startHalfsize[2]));
 		rectangleObjects.push_back(newSquare);
 	}
 }
